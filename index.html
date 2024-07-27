@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRIZZLY</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, #000000, #434343);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            filter: brightness(0.9);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card {
+            background: rgba(35, 35, 35, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+            width: 500px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            color: #e0e0e0;
+            border: 2px solid #555;
+            position: relative;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .profile-img-container {
+            margin-right: 30px;
+        }
+
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #666;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .profile-text {
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 15px;
+            color: #e1e1e1;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .button {
+            background-color: #333;
+            border: none;
+            border-radius: 20px;
+            height: 45px;
+            width: 200px;
+            color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 16px;
+            text-decoration: none; /* Ensure text links do not have underline */
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .button:hover {
+            background: #222;
+            transform: scale(1.1);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 5;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            width: 500px;
+            background: rgba(35, 35, 35, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            z-index: 10;
+            opacity: 0;
+            visibility: hidden;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .modal-content {
+            color: #e0e0e0;
+        }
+
+        .modal h2 {
+            margin-top: 0;
+        }
+
+        .modal-active {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #666;
+        }
+
+        th {
+            font-weight: bold;
+            color: #f5f5f5;
+        }
+
+        td {
+            color: #ccc;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover, .close:focus {
+            color: #f5f5f5;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                width: 90%;
+                flex-direction: column;
+                align-items: center;
+            }
+            .profile-img-container {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            .button {
+                width: 80%;
+                height: 50px;
+                font-size: 18px;
+            }
+            .modal {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="profile-img-container">
+            <img src="https://media.discordapp.net/attachments/1266563878708576308/1266662499277602886/photo_2024-07-10_23-44-02_2.png?ex=66a5f6e1&is=66a4a561&hm=176e3672efe644c22acc193cc385e13e22b8715f07ef67ca1cca2dc136bb4586&=&format=webp&quality=lossless&width=662&height=662" alt="Profile Image" class="profile-img">
+            <div class="profile-text">ZOO.GRIZZLY</div>
+        </div>
+        <div class="content">
+            <div class="button-container">
+                <a href="#" class="button" id="toggleModal">Price List</a>
+                <a href="https://t.me/rofi_grizzly" class="button" target="_blank">Telegram</a>
+                <a href="https://t.me/rofi_grizzly" class="button" target="_blank">@rofi_grizzly</a>
+            </div>
+        </div>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <h2>Прайс-лист</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Цена</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Пробив личности</td>
+                            <td>9.99$</td>
+                        </tr>
+                        <tr>
+                            <td>Испорчу настроение</td>
+                            <td>4.99$</td>
+                        </tr>
+                        <tr>
+                            <td>Заведу дело на человека</td>
+                            <td>24.99$</td>
+                        </tr>
+                        <tr>
+                            <td>Вызов службСВАТ</td>
+                            <td>14.99$</td>
+                        </tr>
+                        <tr>
+                            <td>Руководство по пробиву</td>
+                            <td>99.99$</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="overlay" class="overlay"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelector('.card').classList.add('fade-in');
+            document.querySelector('.modal').classList.add('fade-in');
+        });
+
+        const modal = document.getElementById("myModal");
+        const btn = document.getElementById("toggleModal");
+        const closeBtn = document.getElementById("closeModal");
+        const overlay = document.getElementById("overlay");
+
+        const openModal = () => {
+            modal.classList.add("modal-active");
+            overlay.classList.add("active");
+            btn.textContent = "Close Price List";
+            document.body.style.overflow = 'hidden'; 
+        };
+
+        const closeModal = () => {
+            modal.classList.remove("modal-active");
+            overlay.classList.remove("active");
+            btn.textContent = "Price List";
+            document.body.style.overflow = ''; 
+        };
+
+        btn.onclick = () => {
+            modal.classList.contains("modal-active") ? closeModal() : openModal();
+        };
+
+        closeBtn.onclick = closeModal;
+
+        window.onclick = event => {
+            if (event.target === overlay) closeModal();
+        };
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && modal.classList.contains("modal-active")) closeModal();
+        });
+
+        const originalTitle = document.title;
+
+        window.addEventListener("blur", () => {
+            document.title = "Жди сват жди докс жди...";
+        });
+
+        window.addEventListener("focus", () => {
+            document.title = originalTitle;
+        });
+    </script>
+</body>
+</html>
