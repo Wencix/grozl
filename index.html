@@ -6,17 +6,34 @@
     <title>GRIZZLY</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
+        html, body {
             margin: 0;
             padding: 0;
+            height: 100%;
+            overflow: hidden;
             font-family: 'JetBrains Mono', monospace;
+        }
+
+        body {
             background: linear-gradient(135deg, #000000, #434343);
+            background-size: 200% 200%;
+            animation: backgroundAnimation 10s ease infinite;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
             filter: brightness(0.9);
+        }
+
+        @keyframes backgroundAnimation {
+            0% {
+                background-position: 0% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
         }
 
         @keyframes fadeIn {
@@ -30,11 +47,24 @@
             }
         }
 
+        @keyframes cardBounce {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
         .card {
             background: rgba(35, 35, 35, 0.9);
             border-radius: 20px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
-            width: 500px;
+            width: 90%;
+            max-width: 500px;
             padding: 30px;
             display: flex;
             align-items: center;
@@ -43,7 +73,7 @@
             position: relative;
             z-index: 10;
             opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
+            animation: fadeIn 1s ease-out forwards, cardBounce 3s ease-in-out infinite;
         }
 
         .profile-img-container {
@@ -57,6 +87,7 @@
             object-fit: cover;
             border: 4px solid #666;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+            user-select: none; /* Запретить выделение изображения */
         }
 
         .profile-text {
@@ -128,7 +159,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.8);
-            width: 500px;
+            width: 90%;
+            max-width: 500px;
             background: rgba(35, 35, 35, 0.9);
             border-radius: 20px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
@@ -137,7 +169,6 @@
             z-index: 10;
             opacity: 0;
             visibility: hidden;
-            animation: fadeIn 1s ease-out forwards;
         }
 
         .modal-content {
@@ -191,7 +222,6 @@
 
         @media (max-width: 768px) {
             .card {
-                width: 90%;
                 flex-direction: column;
                 align-items: center;
             }
@@ -220,7 +250,7 @@
             <div class="button-container">
                 <a href="#" class="button" id="toggleModal">Price List</a>
                 <a href="https://t.me/grizzly_byro" class="button" target="_blank">Telegram</a>
-                <a href="(https://t.me/rofli_grizzly" class="button" target="_blank">@rofi_grizzly</a>
+                <a href="https://t.me/rofli_grizzly" class="button" target="_blank">@rofi_grizzly</a>
             </div>
         </div>
         <div id="myModal" class="modal">
@@ -265,7 +295,6 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             document.querySelector('.card').classList.add('fade-in');
-            document.querySelector('.modal').classList.add('fade-in');
         });
 
         const modal = document.getElementById("myModal");
@@ -299,16 +328,6 @@
 
         document.addEventListener('keydown', event => {
             if (event.key === 'Escape' && modal.classList.contains("modal-active")) closeModal();
-        });
-
-        const originalTitle = document.title;
-
-        window.addEventListener("blur", () => {
-            document.title = "Жди сват жди докс жди...";
-        });
-
-        window.addEventListener("focus", () => {
-            document.title = originalTitle;
         });
     </script>
 </body>
