@@ -48,14 +48,11 @@
         }
 
         @keyframes cardBounce {
-            0% {
+            0%, 100% {
                 transform: translateY(0);
             }
             50% {
                 transform: translateY(-10px);
-            }
-            100% {
-                transform: translateY(0);
             }
         }
 
@@ -74,6 +71,7 @@
             z-index: 10;
             opacity: 0;
             animation: fadeIn 1s ease-out forwards, cardBounce 3s ease-in-out infinite;
+            will-change: transform, opacity; /* Добавлено для оптимизации анимации */
         }
 
         .profile-img-container {
@@ -96,6 +94,7 @@
             text-align: center;
             margin-top: 15px;
             color: #e1e1e1;
+            line-height: 1.2; /* Установка line-height для предотвращения тряски текста */
         }
 
         .content {
@@ -169,6 +168,7 @@
             z-index: 10;
             opacity: 0;
             visibility: hidden;
+            will-change: transform, opacity; /* Добавлено для оптимизации анимации */
         }
 
         .modal-content {
